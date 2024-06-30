@@ -343,7 +343,7 @@ jobs:
         package: zerocopy
         feature-group: only-explicit-features
         features: __internal_use_only_features_that_work_on_stable
-        rust-toolchain: ${{ env.ZC_TOOLCHAIN }}-{{matrix.target}}
+        rust-toolchain: ${{ env.ZC_TOOLCHAIN }}-${{ matrix.target }}
       if: matrix.crate == 'zerocopy' && matrix.features == '--features __internal_use_only_features_that_work_on_stable' && matrix.toolchain == 'stable'
   
     # TODO(#453): Doing this as a matrix step is a hack that allows us to depend
