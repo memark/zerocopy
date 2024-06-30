@@ -326,7 +326,7 @@ jobs:
         echo target = \"${{ matrix.target }}\" >>.cargo/config.toml
         cat .cargo/config.toml
 
-    - name: Check semver compatibility (old)
+    - name: Check semver compatibility
       uses: obi1kenobi/cargo-semver-checks-action@c7306483f698c511eaf7416d1bf2e1958c90140f # v2.4
       with:
         package: zerocopy
@@ -335,24 +335,6 @@ jobs:
         rust-toolchain: ${{ env.ZC_TOOLCHAIN }}
       if: matrix.crate == 'zerocopy' && matrix.features == '--features __internal_use_only_features_that_work_on_stable' && matrix.toolchain == 'stable'
 
-    - name: Check semver compatibility (manual)
-      uses: obi1kenobi/cargo-semver-checks-action@c7306483f698c511eaf7416d1bf2e1958c90140f # v2.4
-      with:
-        package: zerocopy
-        feature-group: only-explicit-features
-        features: __internal_use_only_features_that_work_on_stable
-        rust-toolchain: manual
-      if: matrix.crate == 'zerocopy' && matrix.features == '--features __internal_use_only_features_that_work_on_stable' && matrix.toolchain == 'stable'
-
-    - name: Check semver compatibility (target)
-      uses: obi1kenobi/cargo-semver-checks-action@c7306483f698c511eaf7416d1bf2e1958c90140f # v2.4
-      with:
-        package: zerocopy
-        feature-group: only-explicit-features
-        features: __internal_use_only_features_that_work_on_stable
-        rust-toolchain: ${{ env.ZC_TOOLCHAIN }}-${{ matrix.target }}
-      if: matrix.crate == 'zerocopy' && matrix.features == '--features __internal_use_only_features_that_work_on_stable' && matrix.toolchain == 'stable'
-  
     # TODO(#453): Doing this as a matrix step is a hack that allows us to depend
     # on the fact that toolchains have already been installed. We currently only
     # run this on a single matrix combination, but doing it outside of the
