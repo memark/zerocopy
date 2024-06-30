@@ -15,6 +15,7 @@ on:
       - main
       - v0.6.x
   merge_group:
+  workflow_dispatch:
 
 permissions: read-all
 
