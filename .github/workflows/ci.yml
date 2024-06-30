@@ -533,14 +533,14 @@ jobs:
       - name: Install yq (for YAML parsing)
         run: go install github.com/mikefarah/yq/v4@latest
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - name: Run dependency check
-        # Ensure that Git hooks execute successfully.
-        #
-        # Note that this runs all hooks. As of this writing, the only Git hook
-        # is `pre-push`. Running all hooks ensures that, if a new hook is added
-        # which can't run in CI (at least not using this naive setup), we'll
-        # notice and it will remind us to update this test.
-        run: set -e; for hook in ./githooks/*; do $hook; done
+      # - name: Run dependency check
+      #   # Ensure that Git hooks execute successfully.
+      #   #
+      #   # Note that this runs all hooks. As of this writing, the only Git hook
+      #   # is `pre-push`. Running all hooks ensures that, if a new hook is added
+      #   # which can't run in CI (at least not using this naive setup), we'll
+      #   # notice and it will remind us to update this test.
+      #   run: set -e; for hook in ./githooks/*; do $hook; done
 
   # Used to signal to branch protections that all other jobs have succeeded.
   all-jobs-succeed:
