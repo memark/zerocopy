@@ -323,7 +323,7 @@ jobs:
       run: |
         mkdir -p .cargo
         echo [build] >>.cargo/config.toml
-        echo target = "${{ matrix.target }}" >>.cargo/config.toml
+        echo target = \"${{ matrix.target }}\" >>.cargo/config.toml
         cat .cargo/config.toml
 
     - name: Check semver compatibility (old)
