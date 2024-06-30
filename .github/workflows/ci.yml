@@ -319,35 +319,33 @@ jobs:
         export RUSTDOCFLAGS="${{ matrix.toolchain == 'nightly' && '-Z unstable-options --document-hidden-items $METADATA_DOCS_RS_RUSTDOC_ARGS'|| '' }} $RUSTDOCFLAGS"
         ./cargo.sh +${{ matrix.toolchain }} doc --document-private-items --package ${{ matrix.crate }} ${{ matrix.features }}
 
-    # Check semver compatibility with the most recently-published version on
-    # crates.io. We do this in the matrix rather than in its own job so that it
-    # gets run on different targets. Some of our API is target-specific (e.g.,
-    # SIMD type impls), and so we need to run on each target.
-    #
-    # TODO(https://github.com/obi1kenobi/cargo-semver-checks-action/issues/54):
-    # Currently we don't actually do anything with `matrix.target`, so we're
-    # just duplicating work by running this job multiple times, each time
-    # targetting the host platform.
-    - name: Check semver compatibility
+    - name: Check semver compatibility (old)
       uses: obi1kenobi/cargo-semver-checks-action@c7306483f698c511eaf7416d1bf2e1958c90140f # v2.4
       with:
-        # Don't semver check zerocopy-derive; as a proc macro, it doesn't have
-        # an API that cargo-semver-checks can understand.
         package: zerocopy
-        # Test on the stable toolchain, and thus don't test nightly features.
-        # We previously tested on the nightly toolchain, but this caused problems
-        # [1] because cargo-semver-checks only promises compatibility with the
-        # latest stable toolchain. Testing on the stable toolchain is more
-        # reliable, and doesn't require us to give up anything - we wouldn't want
-        # to test nightly-only features anyway, as we don't make stability
-        # guarantees regarding these features.
-        # 
-        # [1] See, for example: https://github.com/google/zerocopy/actions/runs/9466417300/job/26078264384?pr=1413
         feature-group: only-explicit-features
         features: __internal_use_only_features_that_work_on_stable
         rust-toolchain: ${{ env.ZC_TOOLCHAIN }}
       if: matrix.crate == 'zerocopy' && matrix.features == '--features __internal_use_only_features_that_work_on_stable' && matrix.toolchain == 'stable'
 
+    - name: Check semver compatibility (manual)
+      uses: obi1kenobi/cargo-semver-checks-action@c7306483f698c511eaf7416d1bf2e1958c90140f # v2.4
+      with:
+        package: zerocopy
+        feature-group: only-explicit-features
+        features: __internal_use_only_features_that_work_on_stable
+        rust-toolchain: manual
+      if: matrix.crate == 'zerocopy' && matrix.features == '--features __internal_use_only_features_that_work_on_stable' && matrix.toolchain == 'stable'
+
+    - name: Check semver compatibility (target)
+      uses: obi1kenobi/cargo-semver-checks-action@c7306483f698c511eaf7416d1bf2e1958c90140f # v2.4
+      with:
+        package: zerocopy
+        feature-group: only-explicit-features
+        features: __internal_use_only_features_that_work_on_stable
+        rust-toolchain: ${{ env.ZC_TOOLCHAIN }}-{{matrix.target}}
+      if: matrix.crate == 'zerocopy' && matrix.features == '--features __internal_use_only_features_that_work_on_stable' && matrix.toolchain == 'stable'
+  
     # TODO(#453): Doing this as a matrix step is a hack that allows us to depend
     # on the fact that toolchains have already been installed. We currently only
     # run this on a single matrix combination, but doing it outside of the
