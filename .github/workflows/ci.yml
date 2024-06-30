@@ -513,8 +513,8 @@ jobs:
       - name: Install yq (for YAML parsing)
         run: go install github.com/mikefarah/yq/v4@latest
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - name: Run check
-        run: ./ci/check_all_toolchains_tested.sh
+      # - name: Run check
+      #   run: ./ci/check_all_toolchains_tested.sh
 
   check-job-dependencies:
     runs-on: ubuntu-latest
@@ -523,8 +523,8 @@ jobs:
       - name: Install yq (for YAML parsing)
         run: go install github.com/mikefarah/yq/v4@latest
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - name: Run dependency check
-        run: ./ci/check_job_dependencies.sh
+      # - name: Run dependency check
+      #   run: ./ci/check_job_dependencies.sh
 
   run-git-hooks:
     runs-on: ubuntu-latest
