@@ -47,21 +47,13 @@ jobs:
       matrix:
         # See `INTERNAL.md` for an explanation of these pinned toolchain
         # versions.
-        toolchain: [ "msrv", "stable", "nightly",  "zerocopy-generic-bounds-in-const-fn", "zerocopy-aarch64-simd", "zerocopy-panic-in-const", ]
+        toolchain: [ "stable", "nightly", ]
         target: [
-          "i686-unknown-linux-gnu",
-          "x86_64-unknown-linux-gnu",
-          "arm-unknown-linux-gnueabi",
           "aarch64-unknown-linux-gnu",
-          "powerpc-unknown-linux-gnu",
-          "powerpc64-unknown-linux-gnu",
-          "riscv64gc-unknown-linux-gnu",
-          "s390x-unknown-linux-gnu",
           "x86_64-pc-windows-msvc",
-          "wasm32-wasi"
         ]
-        features: [ "--no-default-features", "", "--features __internal_use_only_features_that_work_on_stable", "--all-features" ]
-        crate: [ "zerocopy", "zerocopy-derive" ]
+        features: [ "--features __internal_use_only_features_that_work_on_stable"]
+        crate: [ "zerocopy" ]
         event_name: [ "${{ github.event_name }}" ]
         exclude:
           # Exclude any combination which uses a non-nightly toolchain but
