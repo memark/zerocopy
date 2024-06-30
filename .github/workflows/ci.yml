@@ -321,6 +321,7 @@ jobs:
 
     - name: Hack target
       run: |
+        mkdir -p .cargo
         echo [build] >>.cargo/config.toml
         echo target = "${{ matrix.target }}" >>.cargo/config.toml
         cat .cargo/config.toml
