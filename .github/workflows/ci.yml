@@ -319,6 +319,12 @@ jobs:
         export RUSTDOCFLAGS="${{ matrix.toolchain == 'nightly' && '-Z unstable-options --document-hidden-items $METADATA_DOCS_RS_RUSTDOC_ARGS'|| '' }} $RUSTDOCFLAGS"
         ./cargo.sh +${{ matrix.toolchain }} doc --document-private-items --package ${{ matrix.crate }} ${{ matrix.features }}
 
+    - name: Hack target
+      run: |
+        echo [build] >>.cargo/config.toml
+        echo target = "${{ matrix.target }}" >>.cargo/config.toml
+        cat .cargo/config.toml
+
     - name: Check semver compatibility (old)
       uses: obi1kenobi/cargo-semver-checks-action@c7306483f698c511eaf7416d1bf2e1958c90140f # v2.4
       with:
